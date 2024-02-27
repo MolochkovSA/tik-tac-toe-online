@@ -1,7 +1,7 @@
 import { GameInfo } from './game-info'
 import { GameCell } from './game-cell'
 import { useGameState } from './use-game-state'
-import styles from './game.module.css'
+import { ResetButton } from './reset-btn'
 
 export const Game = () => {
   const { cells, currentStep, winnerSequence, handleCellClick, handleResetClick, isDraw } = useGameState()
@@ -9,7 +9,7 @@ export const Game = () => {
   return (
     <div className="flex flex-col items-center w-40 mx-auto my-24 p-5 border border-black">
       <GameInfo isDraw={isDraw} winnerSymbol={winnerSequence} currentStep={currentStep} />
-      <div className={styles['game-field']}>
+      <div className="grid pt-px pl-px grid-cols-[repeat(3,_30px)] grid-rows-[repeat(3,_30px)]">
         {cells.map((symbol, index) => (
           <GameCell
             key={index}
@@ -19,12 +19,7 @@ export const Game = () => {
           />
         ))}
       </div>
-      <button
-        className="cursor-pointer mt-2.5 bg-transparent border border-gray-400 py-1 px-3 rounded "
-        onClick={handleResetClick}
-      >
-        Сбросить
-      </button>
+      <ResetButton onClick={handleResetClick} />
     </div>
   )
 }
