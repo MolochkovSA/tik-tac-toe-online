@@ -31,7 +31,14 @@ export const useGameState = () => {
 
   const isDraw = !winnerSequence && !cells.filter((item) => !item).length
 
-  return { cells, currentStep, winnerSequence, handleCellClick, handleResetClick, isDraw }
+  return {
+    cells,
+    currentStep,
+    winnerSequence,
+    handleCellClick,
+    handleResetClick,
+    isDraw,
+  }
 }
 
 const computeWinner = (cells) => {
