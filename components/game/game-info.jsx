@@ -13,7 +13,7 @@ export function GameInfo({ className }) {
           </div>
         </div>
         <div className=" h-6 w-px bg-slate-200"></div>
-        <div className="text-slate-900 text-lg leading-tight font-semibold">01:08</div>
+        <div className="text-lg leading-tight font-semibold">01:08</div>
       </div>
 
       <div className="flex items-center gap-3">
