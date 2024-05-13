@@ -7,6 +7,7 @@ import avatarSrc1 from './images/avatar-1.png'
 import avatarSrc2 from './images/avatar-2.png'
 import avatarSrc3 from './images/avatar-3.png'
 import avatarSrc4 from './images/avatar-4.png'
+import { useEffect, useState } from 'react'
 
 const players = [
   {
@@ -39,17 +40,45 @@ const players = [
   },
 ]
 
-export function GameInfo({ className, playersCount }) {
+export function GameInfo({ className, playersCount, currentMove }) {
   return (
     <div className={clsx(className, 'bg-white rounded-2xl shadow-md px-8 py-4 grid grid-cols-2 gap-3 justify-between')}>
       {players.slice(0, playersCount).map((player, index) => (
-        <PlayerInfo key={player.id} playerInfo={player} isRight={index % 2} />
+        <PlayerInfo
+          key={player.id}
+          playerInfo={player}
+          isRight={index % 2}
+          isTimerRunning={currentMove === player.symbol}
+        />
       ))}
     </div>
   )
 }
 
-function PlayerInfo({ playerInfo, isRight }) {
+const defaultTime = 90
+
+function PlayerInfo({ playerInfo, isRight, isTimerRunning }) {
+  const [seconds, setSeconds] = useState(defaultTime)
+
+  useEffect(() => {
+    if (isTimerRunning) {
+      const targetDate = new Date(new Date().getTime() + defaultTime * 1000)
+      const timer = setInterval(() => {
+        const remainingSeconds = Math.round((targetDate - new Date()) / 1000)
+        setSeconds(Math.max(remainingSeconds, 0))
+      }, 1000)
+
+      return () => {
+        clearInterval(timer)
+        setSeconds(defaultTime)
+      }
+    }
+  }, [isTimerRunning])
+
+  const minutesString = String(Math.floor(seconds / 60)).padStart(2, '0')
+  const seconsdsString = String(seconds % 60).padStart(2, '0')
+  const isDanger = seconds <= 10
+
   return (
     <div className="flex items-center gap-3">
       <div className={clsx('relative', isRight && 'order-3')}>
@@ -59,7 +88,16 @@ function PlayerInfo({ playerInfo, isRight }) {
         </div>
       </div>
       <div className={clsx('h-6 w-px bg-slate-200', isRight && 'order-2')}></div>
-      <div className={clsx('text-lg leading-tight font-semibold', isRight && 'order-1')}>01:08</div>
+      <div
+        className={clsx(
+          ' text-lg leading-tight font-semibold w-[60px]',
+          isRight && 'order-1',
+          isDanger && 'text-orange-600',
+          !isTimerRunning && 'text-slate-400'
+        )}
+      >
+        {minutesString}:{seconsdsString}
+      </div>
     </div>
   )
 }
