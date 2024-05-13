@@ -1,14 +1,14 @@
 import Image from 'next/image'
-import avatarSrc from './avatar.png'
+import avatarSrc from '../game/images/avatar-1.png'
 import clsx from 'clsx'
 
-export function Profile({ className }) {
+export function Profile({ className, name, rating, avatar = avatarSrc }) {
   return (
     <div className={clsx(className, 'flex items-center gap-2 text-start text-teal-600 ')}>
-      <Image src={avatarSrc} width={48} height={48} alt="avatar" unoptimized />
-      <div>
-        <div className="text-lg leading-tight">Paromovevg</div>
-        <div className="text-slate-400 text-xs leading-tight">Рейтинг: 1230</div>
+      <Image src={avatar} width={48} height={48} alt="avatar" unoptimized />
+      <div className="overflow-hidden">
+        <div className="text-lg leading-tight truncate">{name}</div>
+        <div className="text-slate-400 text-xs leading-tight">Рейтинг: {rating}</div>
       </div>
     </div>
   )

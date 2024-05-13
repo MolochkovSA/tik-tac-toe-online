@@ -13,7 +13,7 @@ export const Header = () => {
         Играть
       </UiButton>
       <button className="ml-auto flex items-center gap-2 text-start text-teal-600">
-        <Profile />
+        <Profile name="Paromovevg" rating="1280" />
         <ArrowDownIcon />
       </button>
     </header>
