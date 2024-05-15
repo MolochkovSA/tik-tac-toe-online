@@ -6,7 +6,7 @@ export function getNextMove(currentMove, playersCount) {
   return sliceMoveOrder[nextMoveIndex] ?? sliceMoveOrder[0]
 }
 
-export function computeWinner(cells, sequenceSize = 3, fuildSize = 19) {
+export function computeWinner(cells, sequenceSize = 5, fuildSize = 19) {
   const gap = Math.floor(sequenceSize / 2)
 
   function compareElements(indexes) {
@@ -33,6 +33,13 @@ export function computeWinner(cells, sequenceSize = 3, fuildSize = 19) {
       res[1].push(fuildSize * (j - gap) + (j - gap) + i)
       res[2].push(-fuildSize * (j - gap) + (j - gap) + i)
       res[3].push(fuildSize * (j - gap) + i)
+    }
+
+    const x = i % fuildSize
+    if (x < gap || x >= fuildSize - gap) {
+      res.shift()
+      res.shift()
+      res.shift()
     }
 
     return res

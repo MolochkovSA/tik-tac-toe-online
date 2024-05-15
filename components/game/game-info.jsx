@@ -40,7 +40,7 @@ const players = [
   },
 ]
 
-export function GameInfo({ className, playersCount, currentMove }) {
+export function GameInfo({ className, playersCount, currentMove, winnerSymbol, onPlayerTimeOver }) {
   return (
     <div className={clsx(className, 'bg-white rounded-2xl shadow-md px-8 py-4 grid grid-cols-2 gap-3 justify-between')}>
       {players.slice(0, playersCount).map((player, index) => (
@@ -48,16 +48,18 @@ export function GameInfo({ className, playersCount, currentMove }) {
           key={player.id}
           playerInfo={player}
           isRight={index % 2}
-          isTimerRunning={currentMove === player.symbol}
+          winnerSymbol={winnerSymbol}
+          onTimeOver={() => onPlayerTimeOver(player.symbol)}
+          isTimerRunning={currentMove === player.symbol && !winnerSymbol}
         />
       ))}
     </div>
   )
 }
 
-const defaultTime = 90
+const defaultTime = 30
 
-function PlayerInfo({ playerInfo, isRight, isTimerRunning }) {
+function PlayerInfo({ playerInfo, isRight, isTimerRunning, onTimeOver, winnerSymbol }) {
   const [seconds, setSeconds] = useState(defaultTime)
 
   useEffect(() => {
@@ -75,13 +77,26 @@ function PlayerInfo({ playerInfo, isRight, isTimerRunning }) {
     }
   }, [isTimerRunning])
 
+  useEffect(() => {
+    if (seconds === 0) {
+      onTimeOver()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seconds])
+
   const minutesString = String(Math.floor(seconds / 60)).padStart(2, '0')
   const seconsdsString = String(seconds % 60).padStart(2, '0')
   const isDanger = seconds <= 10
 
   return (
     <div className="flex items-center gap-3">
-      <div className={clsx('relative', isRight && 'order-3')}>
+      <div
+        className={clsx(
+          'relative',
+          isRight && 'order-3',
+          winnerSymbol === playerInfo.symbol && ' rounded-full bg-orange-600/10'
+        )}
+      >
         <Profile className="w-[180px]" name={playerInfo.name} rating={playerInfo.rating} avatar={playerInfo.avatar} />
         <div className="w-5 h-5 rounded-full bg-white shadow absolute -left-1 -top-1 flex items-center justify-center">
           <GameSymbol symbol={playerInfo.symbol} className="w-3 h-3" />
