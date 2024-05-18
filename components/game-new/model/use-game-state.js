@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { GAME_SYMBOLS } from './constants'
-import { getNextMove, computeWinner } from './game-logic'
+import { GAME_SYMBOLS } from '../constants'
+import { computeWinner } from './compute-winner'
+import { getNextMove } from './get-next-move'
 
 const defaultCells = new Array(19 * 19).fill(null)
 

@@ -10,6 +10,8 @@ export const GAME_SYMBOLS = {
   SQUARE: 'square',
 }
 
+export const PLAYERS_COUNT = 2
+
 export const DEFAULTTIMER = 60
 
 export const MOVE_ORDER = [GAME_SYMBOLS.CROSS, GAME_SYMBOLS.ZERO, GAME_SYMBOLS.TRIANGLE, GAME_SYMBOLS.SQUARE]
