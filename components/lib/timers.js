@@ -38,5 +38,5 @@ export function useInterval(intervel, enabled, cb) {
     return () => {
       clearInterval(interval)
     }
-  }, [intervel, enabled])
+  }, [intervel, enabled, cb])
 }
